@@ -6,7 +6,7 @@ from torch import nn
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
-st.set_page_config(page_title='AI Stock Prediction Dashboard', page_icon=, layout='wide')
+st.set_page_config(page_title='AI Stock Prediction Dashboard', layout='wide')
 st.markdown('''<style>.stApp{background:#0b1220}.card{background:#151f31;border:1px solid #2a374d;border-radius:12px;padding:14px}.label{color:#9aa8bd;font-size:13px}.value{font-size:27px;font-weight:700}</style>''', unsafe_allow_html=True)
 
 @st.cache_data
