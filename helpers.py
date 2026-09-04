@@ -43,7 +43,7 @@ def chart_y_histogram(y_series: pd.Series):
     plt.show()
 
 
-def train(x_df: pd.DataFrame, y_series: pd.Series, epochs: int = 100):
+def train(x_df: pd.DataFrame, y_series: pd.Series, epochs: int = 150):
     """
     Trains the LSTMStocksModule model
     :param x_df: Inputs consisting of sequences of stock price returns
