@@ -1,38 +1,56 @@
+import torch
 from torch import nn
 
 
 class LSTMStocksModule(nn.Module):
 
+    INPUT_SIZE = 9
     HIDDEN_SIZE = 32
     NUM_LAYERS = 2
-    BIAS = True
-    DROPOUT = 0.2
+    DROPOUT = 0.20
 
     def init(self):
+
         super().init()
 
         self.lstm = nn.LSTM(
-            input_size=1,
+            input_size=self.INPUT_SIZE,
             hidden_size=self.HIDDEN_SIZE,
             num_layers=self.NUM_LAYERS,
-            bias=self.BIAS,
             batch_first=True,
             dropout=self.DROPOUT
         )
 
-        self.linear = nn.Linear(
+        self.dropout = nn.Dropout(self.DROPOUT)
+
+        self.fc1 = nn.Linear(
             self.HIDDEN_SIZE,
+            16
+        )
+
+        self.relu = nn.ReLU()
+
+        self.fc2 = nn.Linear(
+            16,
             1
         )
 
     def forward(self, x):
 
-        output, (hidden, cell) = self.lstm(
-            x.unsqueeze(-1)
-        )
+        # x shape:
+        # (batch, sequence_length, 9)
 
+        output, (hidden, cell) = self.lstm(x)
+
+        # Last LSTM layer's final hidden state
         out = hidden[-1]
 
-        out = self.linear(out).squeeze(-1)
+        out = self.dropout(out)
 
-        return out
+        out = self.fc1(out)
+
+        out = self.relu(out)
+
+        out = self.fc2(out)
+
+        return out.squeeze(-1)
